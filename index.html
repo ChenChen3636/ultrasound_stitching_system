@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上傳超音波圖片</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>請選擇左圖和右圖進行上傳</h2>
+        <form action="upload.php" method="post" enctype="multipart/form-data">
+            <div class="image-upload-section">
+                <!-- 左圖 -->
+                <div class="image-upload">
+                    <label for="leftImage" class="align-left">左圖：</label>
+                    <input type="file" name="leftImage" id="leftImage" accept="image/*" required onchange="previewImage(event, 'leftImagePreview')">
+                    <img id="leftImagePreview" src="#" alt="左圖預覽" style="display: none;">
+                </div>
+
+                <!-- 右圖 -->
+                <div class="image-upload">
+                    <label for="rightImage" class="align-left">右圖：</label>
+                    <input type="file" name="rightImage" id="rightImage" accept="image/*" required onchange="previewImage(event, 'rightImagePreview')">
+                    <img id="rightImagePreview" src="#" alt="右圖預覽" style="display: none;">
+                </div>
+            </div>
+            <div style="margin-top:20px;">
+                <label for="l2Position">請輸入 L2 在左圖中是從左數到右第幾節：</label>
+                <input type="number" name="l2Position" id="l2Position" required>
+            </div>
+            
+
+            <input type="submit" value="上傳並處理圖片">
+        </form>
+    </div>
+
+    <script>
+        function previewImage(event, previewElementId) {
+            const input = event.target;
+            const reader = new FileReader();
+            const previewImage = document.getElementById(previewElementId);
+            
+            reader.onload = function(){
+                previewImage.src = reader.result;
+                previewImage.style.display = "block";  // 顯示預覽圖片
+            }
+            
+            if(input.files && input.files[0]) {
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                previewImage.src = "#";  // 重置圖片源
+                previewImage.style.display = "none";  // 隱藏圖片
+            }
+        }
+    </script>
+</body>
+</html>
